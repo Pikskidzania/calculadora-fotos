@@ -14,16 +14,33 @@ if "historico" not in st.session_state:
 
 # Limpar dados
 if st.button("🧹 Limpar dados"):
-    # Limpar apenas o histórico e as combinações salvas, sem afetar os campos de entrada
+    # Limpar apenas o histórico e as combinações salvas
     st.session_state["historico"] = []
     st.session_state["estado_anterior"] = []
     st.session_state["dados"] = {}
 
     # Mensagem para o utilizador
-    st.write("Dados limpos com sucesso! A página será atualizada.")
+    st.write("Dados limpos com sucesso!")
 
-    # Para garantir que a interface se atualize, vamos usar `st.stop()`, que interrompe a execução
-    st.stop()  # Faz a aplicação parar a execução e recarregar a página com os dados limpos
+# Campos de entrada (exemplo)
+total_preco = st.number_input("💰 Faturação total (€)", min_value=0, step=1)
+total_fotografias = st.number_input("📷 Total de fotografias", min_value=0, step=1)
+
+# Função principal ou lógica do seu código
+def encontrar_combinacoes(total_preco, total_fotografias):
+    combinacoes = []
+    # Seu código para encontrar combinações
+    return combinacoes
+
+# Exibição de resultados ou outros dados
+if st.button("🔍 Calcular combinações"):
+    combinacoes = encontrar_combinacoes(total_preco, total_fotografias)
+
+    if combinacoes:
+        st.success(f"✅ {len(combinacoes)} combinação(ões) encontrada(s).")
+        # Mostrar os resultados
+    else:
+        st.warning("⚠️ Nenhuma combinação encontrada.")
     
 # Layout de inputs em colunas
 col1, col2 = st.columns(2)
