@@ -100,3 +100,56 @@ with st.expander("📜 Ver histórico da sessão"):
                 st.write(f"• 10€: {comb[0]}, 15€: {comb[1]}, Extras: {comb[2]}")
     else:
         st.write("Ainda sem histórico.")
+# Simulação de histórico de combinações
+historico = pd.DataFrame({
+    'Data': ['2025-04-01', '2025-04-02', '2025-04-03'],
+    'Combinação': ['A+B', 'C+D', 'A+B']
+})
+
+# Atalhos para ações frequentes - Adicionar combinação igual a ontem
+ultimo_dia = historico.iloc[-1]
+if st.button("Adicionar combinação igual a ontem"):
+    st.text_input("Combinação", ultimo_dia['Combinação'])
+
+# Campo de pesquisa nas combinações já guardadas
+search_term = st.text_input('Procurar por combinação')
+
+if search_term:
+    resultados = historico[historico['Combinação'].str.contains(search_term, case=False)]
+    st.write(resultados)
+
+# Undo - Desfazer a última ação
+if 'estado_anterior' not in st.session_state:
+    st.session_state.estado_anterior = []
+
+# Salvar os dados de maneira simples para undo
+if st.button("Salvar combinação"):
+    nova_comb = st.text_input("Nova combinação", "")
+    if nova_comb:
+        st.session_state.estado_anterior.append(nova_comb)
+        historico = historico.append({'Data': str(datetime.today().date()), 'Combinação': nova_comb}, ignore_index=True)
+
+# Ação de Desfazer última ação
+if st.button("Desfazer"):
+    if st.session_state.estado_anterior:
+        st.session_state.estado_anterior.pop()  # Remove a última entrada
+        historico = historico.iloc[:-1]  # Remove a última linha do histórico
+        st.write("Última ação desfeita.")
+
+# Salvar automaticamente (autosave)
+if "dados" not in st.session_state:
+    st.session_state.dados = {}
+
+campo = st.text_input("Inserir dados")
+
+# Salvando automaticamente no estado de sessão
+st.session_state.dados["campo"] = campo
+
+# Exibindo o histórico
+st.write("Histórico de combinações:", historico)
+
+# Destacar os dias mais movimentados
+historico['Combinação_count'] = historico.groupby('Data')['Combinação'].transform('count')
+dias_fortes = historico[historico['Combinação_count'] > 1]  # Exemplo de critério
+
+st.write("Dias mais movimentados:", dias_fortes)
