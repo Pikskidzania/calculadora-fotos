@@ -13,12 +13,15 @@ if "historico" not in st.session_state:
     st.session_state["historico"] = []
 
 # Limpar dados
-if st.button("🧹 Limpar dados"):
-    # Limpar o histórico e outros dados guardados na sessão
-    st.session_state.clear()  # Isso vai limpar todas as variáveis do estado da sessão
+f st.button("🧹 Limpar dados"):
+    # Limpar todos os dados armazenados na sessão
+    st.session_state.clear()  # Isso apaga todos os dados do estado da sessão
 
-    # Atualizar a interface para refletir a limpeza (opcional)
-    st.experimental_rerun()  # Reiniciar o app para refletir o estado limpo
+    # Adicionar uma mensagem para o utilizador
+    st.write("Dados limpos com sucesso!")
+
+    # A maneira mais simples de garantir que a interface é atualizada: parar o script
+    st.stop()  # Isso faz com que a execução do script pare, o que ajuda a "refrescar" a página
 
 # Layout de inputs em colunas
 col1, col2 = st.columns(2)
