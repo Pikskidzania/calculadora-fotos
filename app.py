@@ -13,7 +13,7 @@ if "historico" not in st.session_state:
     st.session_state["historico"] = []
 
 # Limpar dados
-f st.button("🧹 Limpar dados"):
+if st.button("🧹 Limpar dados"):
     # Limpar todos os dados armazenados na sessão
     st.session_state.clear()  # Isso apaga todos os dados do estado da sessão
 
