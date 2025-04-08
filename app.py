@@ -123,14 +123,6 @@ if search_term:
     st.write(resultados)
 
 
-# Autosave - Salvar automaticamente
-if "dados" not in st.session_state:
-    st.session_state.dados = {}
-
-campo = st.text_input("Inserir dados")  # Exemplo de campo para salvar automaticamente
-
-# Salvando automaticamente no estado de sessão
-st.session_state.dados["campo"] = campo
 
 
 
