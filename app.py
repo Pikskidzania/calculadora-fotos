@@ -14,7 +14,13 @@ if "historico" not in st.session_state:
 
 # Limpar dados
 if st.button("🧹 Limpar dados"):
-    st.experimental_rerun()
+    # Limpar o histórico e os dados da sessão
+    st.session_state["historico"] = []
+    st.session_state["estado_anterior"] = []
+    st.session_state["dados"] = {}
+
+    # Resetar os campos de entrada para seus valores iniciais
+    st.experimental_rerun()  # Isso irá reiniciar a app para refletir as mudanças
 
 # Layout de inputs em colunas
 col1, col2 = st.columns(2)
@@ -127,29 +133,38 @@ if st.button("Salvar combinação"):
     nova_comb = st.text_input("Nova combinação", "")
     if nova_comb:
         st.session_state.estado_anterior.append(nova_comb)
-        historico = historico.append({'Data': str(datetime.today().date()), 'Combinação': nova_comb}, ignore_index=True)
+        # Adicionar a nova combinação ao histórico
+        st.session_state["historico"].append({
+            "Data": str(datetime.today().date()),
+            "Combinação": nova_comb
+        })
 
 # Ação de Desfazer última ação
 if st.button("Desfazer"):
     if st.session_state.estado_anterior:
         st.session_state.estado_anterior.pop()  # Remove a última entrada
-        historico = historico.iloc[:-1]  # Remove a última linha do histórico
+        st.session_state["historico"].pop()  # Remove a última linha do histórico
         st.write("Última ação desfeita.")
 
-# Salvar automaticamente (autosave)
+# Autosave - Salvar automaticamente
 if "dados" not in st.session_state:
     st.session_state.dados = {}
 
-campo = st.text_input("Inserir dados")
+campo = st.text_input("Inserir dados")  # Exemplo de campo para salvar automaticamente
 
 # Salvando automaticamente no estado de sessão
 st.session_state.dados["campo"] = campo
 
 # Exibindo o histórico
-st.write("Histórico de combinações:", historico)
+st.write("Histórico de combinações:", st.session_state["historico"])
 
 # Destacar os dias mais movimentados
-historico['Combinação_count'] = historico.groupby('Data')['Combinação'].transform('count')
-dias_fortes = historico[historico['Combinação_count'] > 1]  # Exemplo de critério
+historico_df = pd.DataFrame(st.session_state["historico"])  # Criar DataFrame a partir do histórico
 
-st.write("Dias mais movimentados:", dias_fortes)
+# Calcular a contagem de combinações por data
+historico_df['Combinação_count'] = historico_df.groupby('Data')['Combinação'].transform('count')
+
+# Definir o critério de "dias mais movimentados"
+dias_fortes = historico_df[historico_df['Combinação_count'] > 1]  # Exemplo de critério (mais de 1 combinação)
+
+st.write("Dias mais movimentados:", dias_fortes[['Data', 'Combinação_count']])
