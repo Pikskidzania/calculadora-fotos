@@ -98,32 +98,6 @@ if st.button("🔍 Calcular combinações"):
     else:
         st.warning("⚠️ Nenhuma combinação encontrada.")
 
-# Histórico
-with st.expander("📜 Ver histórico da sessão"):
-    if st.session_state["historico"]:
-        for i, h in enumerate(st.session_state["historico"], 1):
-            st.markdown(f"**#{i}** - Fotos: `{h['fotos']}` | Faturação: `{h['faturacao']}€` | Escolas: `{h['escolas']}`")
-            for comb in h["combinacoes"]:
-                st.write(f"• 10€: {comb[0]}, 15€: {comb[1]}, Extras: {comb[2]}")
-    else:
-        st.write("Ainda sem histórico.")
-# Simulação de histórico de combinações
-historico = pd.DataFrame({
-    'Data': ['2025-04-01', '2025-04-02', '2025-04-03'],
-    'Combinação': ['A+B', 'C+D', 'A+B']
-})
-
-# Atalhos para ações frequentes - Adicionar combinação igual a ontem
-ultimo_dia = historico.iloc[-1]
-if st.button("Adicionar combinação igual a ontem"):
-    st.text_input("Combinação", ultimo_dia['Combinação'])
-
-# Campo de pesquisa nas combinações já guardadas
-search_term = st.text_input('Procurar por combinação')
-
-if search_term:
-    resultados = historico[historico['Combinação'].str.contains(search_term, case=False)]
-    st.write(resultados)
 
 
 
