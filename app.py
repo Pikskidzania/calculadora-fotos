@@ -14,13 +14,11 @@ if "historico" not in st.session_state:
 
 # Limpar dados
 if st.button("🧹 Limpar dados"):
-    # Limpar o histórico e os dados da sessão
-    st.session_state["historico"] = []
-    st.session_state["estado_anterior"] = []
-    st.session_state["dados"] = {}
+    # Limpar o histórico e outros dados guardados na sessão
+    st.session_state.clear()  # Isso vai limpar todas as variáveis do estado da sessão
 
-    # Resetar os campos de entrada para seus valores iniciais
-    st.experimental_rerun()  # Isso irá reiniciar a app para refletir as mudanças
+    # Atualizar a interface para refletir a limpeza (opcional)
+    st.experimental_rerun()  # Reiniciar o app para refletir o estado limpo
 
 # Layout de inputs em colunas
 col1, col2 = st.columns(2)
