@@ -5,7 +5,7 @@ st.set_page_config(page_title="Calculadora de Fotografias", layout="centered")
 
 # Estilo e cabeçalho
 st.title("📸 Calculadora de Combinações de Fotografias")
-st.markdown("Feito com 💜 por **[Guilherme Santos]**")
+st.markdown("Feito com 💜 por **Guilherme Santos**")
 st.markdown("---")
 
 # Sessão de histórico
