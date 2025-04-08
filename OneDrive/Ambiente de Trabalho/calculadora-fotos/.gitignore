@@ -1,0 +1,17 @@
+# Ignorar a pasta de cache de pacotes do Python
+__pycache__/
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar arquivos de configuração do sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos temporários do sistema operacional
+*.bak
+*.swp
+*.tmp
+
+# Ignorar arquivos específicos de jogos ou outros diretórios
+AppData/
